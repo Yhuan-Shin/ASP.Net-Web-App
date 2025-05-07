@@ -1,3 +1,6 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using WebPractice.Data;
 namespace WebPractice
 {
     public class Program
@@ -5,6 +8,8 @@ namespace WebPractice
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddDbContext<WebPracticeContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("WebPracticeContext") ?? throw new InvalidOperationException("Connection string 'WebPracticeContext' not found.")));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
